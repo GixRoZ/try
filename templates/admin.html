@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <script>
+    function updateStatus(id) {
+      const status = document.getElementById("status-"+id).value;
+      fetch("/update_status/" + id, {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: "status=" + status
+      }).then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert("Updated!");
+            location.reload();
+          }
+        });
+    }
+  </script>
+</head>
+<body>
+  <h2>Admin - Manage Orders</h2>
+  <ul>
+    {% for order in orders %}
+      <li>
+        {{ order[1] }} - {{ order[2] }} - Status:
+        <select id="status-{{ order[0] }}">
+          <option value="Pending" {% if order[3]=="Pending" %}selected{% endif %}>Pending</option>
+          <option value="Processing" {% if order[3]=="Processing" %}selected{% endif %}>Processing</option>
+          <option value="Delivered" {% if order[3]=="Delivered" %}selected{% endif %}>Delivered</option>
+        </select>
+        <button onclick="updateStatus({{ order[0] }})">Update</button>
+      </li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
