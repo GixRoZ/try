@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Customer Panel</title></head>
+<body>
+  <h2>Place Your Order</h2>
+  <form action="/place_order" method="POST">
+    Name: <input type="text" name="name" required><br>
+    Product: <input type="text" name="product" required><br>
+    <button type="submit">Order</button>
+  </form>
+
+  <h3>All Orders</h3>
+  <ul>
+    {% for order in orders %}
+      <li>{{ order[1] }} ordered {{ order[2] }} - Status: {{ order[3] }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
